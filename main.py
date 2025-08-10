@@ -29,7 +29,13 @@ def remove_task():
     while True:
         clear_screen()
         print("Enter 'd' when done removing, 'b' to go back.")
+        if not tasks:
+            print("No tasks to show.")
+            input("Press Enter to return to menu.")
+            break
+
         list_tasks()
+
         choice = input("Enter task number to remove: ")
         if choice=='b':
             print("Going back...")
@@ -55,7 +61,6 @@ def remove_task():
 def list_tasks():
     if not tasks:
         print("No tasks to show.")
-        input("Press Enter to return to menu.")
         return
     max_len=max(len(item["task"]) for item in tasks)
     for i, item in enumerate(tasks,1):
@@ -63,6 +68,10 @@ def list_tasks():
         print(f"{i}. {item['task'].ljust(max_len)}   [{status}]")
     
 def update_task():
+    if not tasks:
+            print("No tasks to show.")
+            input("Press Enter to return to menu.")
+            return
     print("Enter 'd' when done, 'b' to go back.")
     while True:
         clear_screen()
@@ -93,6 +102,10 @@ def update_task():
 
 
 def save_to_file():
+    if not tasks:
+            print("No tasks to show.")
+            input("Press Enter to return to menu.")
+            return
     try:
         with open("TO-DO.json", "w") as f:
             json.dump(tasks,f,indent=4)
@@ -113,6 +126,10 @@ def save_to_file():
 
 def load_from_file():
     global tasks
+    if not tasks:
+            print("No tasks to show.")
+            input("Press Enter to return to menu.")
+            return
     try:
         with open("TO-DO.json","r") as f:
             tasks=json.load(f)
