@@ -1,4 +1,0 @@
-========= TO-DO LIST =========
-1. barbershop appointment [ ]
-2. bday                   [✔]
-3. groceries              [ ]
