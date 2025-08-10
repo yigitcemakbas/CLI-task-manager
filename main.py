@@ -52,36 +52,68 @@ def remove_task():
             input("'b' to go back: ")
     
 def list_tasks():
+    if not tasks:
+        print("No tasks to show.")
+        input("Press Enter to return to menu.")
+        return
+    max_len=max(len(item["task"]) for item in tasks)
     for i, item in enumerate(tasks,1):
-        status="Done" if item["done"] else "Incomplete"
-        print(f"{i}. {item['task']} [{status}]")
+        status="✔" if item["done"] else " "
+        print(f"{i}. {item['task'].ljust(max_len)}   [{status}]")
     
 def update_task():
-    list_tasks()
-    try:
-        index=int(input("Enter task number to toggle status: "))-1
-        if 0<=index<len(tasks):
-            tasks[index]["done"]=not tasks[index]["done"]
-        else:
-            print("Invalid task number.")
-    except ValueError:
-        print("Please enter a valid number.")
-    clear_screen()
-    list_tasks()
-    input("Press Enter to return to Menu.")
+    print("Enter 'd' when done, 'b' to go back.")
+    while True:
+        clear_screen()
+        print("Enter 'd' when done.")
+        list_tasks()
+        choice = input("Enter task number to toggle status: ").strip()
+
+        if choice.lower() == 'b':
+            print("Going back...")
+            return
+        elif choice.lower() == 'd':
+            clear_screen()
+            print("Done updating task status.")
+            list_tasks()
+            input("Press Enter to return to menu.")
+            break
+
+        try:
+            index = int(choice) - 1
+            if 0 <= index < len(tasks):
+                tasks[index]["done"] = not tasks[index]["done"]
+            else:
+                print("Invalid task number.")
+                input("Press Enter to try again.")
+        except ValueError:
+            print("Please enter a valid number.")
+            input("Press Enter to try again.")
 
 
 def save_to_file():
     with open("TO-DO.json", "w") as f:
         json.dump(tasks,f,indent=4)
+    with open("TO-DO.txt", "w") as f:
+        f.write("========= TO-DO LIST =========\n")
+        if tasks:
+            max_len=max(len(item["task"]) for item in tasks)
+            for i, item in enumerate(tasks,1):
+                status="✔" if item["done"] else " "
+                f.write(f"{i}. {item['task'].ljust(max_len)}   [{status}]\n")
+
     print("Tasks saved successfully.")
+    input("Press Enter to return to menu.")
 
 def load_from_file():
     global tasks
     try:
         with open("TO-DO.json","r") as f:
             tasks=json.load(f)
+        clear_screen()
         print("Tasks loaded successfully.")
+        list_tasks()
+        input("Press enter to return to menu.")
     except FileNotFoundError:
         print("No saved tasks found.")
     except json.JSONDecodeError:

@@ -1,10 +1,14 @@
 [
     {
-        "task": "grocery shopping",
+        "task": "barbershop appointment",
+        "done": false
+    },
+    {
+        "task": "bday",
         "done": true
     },
     {
-        "task": "birthday party",
+        "task": "groceries",
         "done": false
     }
 ]
