@@ -20,7 +20,8 @@ def add_task():
             input("Press Enter to return to menu.")
             break
         if not task.strip():
-            raise ValueError("Input cannot be empty.")
+            input("Input cannot be empty. 'b' to go back.")
+            continue
         tasks.append({"task": task, "done": False})
     
     
@@ -92,17 +93,22 @@ def update_task():
 
 
 def save_to_file():
-    with open("TO-DO.json", "w") as f:
-        json.dump(tasks,f,indent=4)
-    with open("TO-DO.txt", "w") as f:
-        f.write("========= TO-DO LIST =========\n")
-        if tasks:
-            max_len=max(len(item["task"]) for item in tasks)
-            for i, item in enumerate(tasks,1):
-                status="✔" if item["done"] else " "
-                f.write(f"{i}. {item['task'].ljust(max_len)}   [{status}]\n")
+    try:
+        with open("TO-DO.json", "w") as f:
+            json.dump(tasks,f,indent=4)
+        with open("TO-DO.txt", "w") as f:
+            f.write("========= TO-DO LIST =========\n")
+            if tasks:
+                max_len=max(len(item["task"]) for item in tasks)
+                for i, item in enumerate(tasks,1):
+                    status="✔" if item["done"] else " "
+                    f.write(f"{i}. {item['task'].ljust(max_len)}   [{status}]\n")
 
-    print("Tasks saved successfully.")
+        print("Tasks saved successfully.")
+        input("Press Enter to return to menu.")
+
+    except (IOError, OSError) as e:
+        print(f"Error saving tasks: {e}")
     input("Press Enter to return to menu.")
 
 def load_from_file():
@@ -116,9 +122,13 @@ def load_from_file():
         input("Press enter to return to menu.")
     except FileNotFoundError:
         print("No saved tasks found.")
+        input("Press Enter to return to menu.")
     except json.JSONDecodeError:
         print("Error loading tasks. File might be corrupted.")
-
+        input("Press Enter to return to menu.")
+    except (IOError,OSError) as e:
+        print(f"Erorr reading file: {e}")
+        input("Press Enter to return to menu.")
 
 def main():
     while True:

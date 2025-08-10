@@ -1,0 +1,14 @@
+[
+    {
+        "task": "barbershop appointment",
+        "done": false
+    },
+    {
+        "task": "bday",
+        "done": true
+    },
+    {
+        "task": "groceries",
+        "done": false
+    }
+]
