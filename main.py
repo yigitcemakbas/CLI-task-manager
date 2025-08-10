@@ -59,7 +59,7 @@ def list_tasks():
         return
     max_len=max(len(item["task"]) for item in tasks)
     for i, item in enumerate(tasks,1):
-        status="✔" if item["done"] else " "
+        status="x" if item["done"] else " "
         print(f"{i}. {item['task'].ljust(max_len)}   [{status}]")
     
 def update_task():
@@ -101,7 +101,7 @@ def save_to_file():
             if tasks:
                 max_len=max(len(item["task"]) for item in tasks)
                 for i, item in enumerate(tasks,1):
-                    status="✔" if item["done"] else " "
+                    status="x" if item["done"] else " "
                     f.write(f"{i}. {item['task'].ljust(max_len)}   [{status}]\n")
 
         print("Tasks saved successfully.")
