@@ -122,8 +122,10 @@ def save_to_file():
                     f.write(f"{i}. {item['task'].ljust(max_len)}   [{status}]\n")
             else:
                 f.write(" ")
-
-        print("Tasks saved successfully.")
+        if tasks:
+            print("Tasks saved successfully.")
+        else:
+            print("File cleared.")
 
 
     except (IOError, OSError) as e:
