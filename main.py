@@ -102,23 +102,29 @@ def update_task():
 
 
 def save_to_file():
+    file_output=input("Enter file name: ")
+    file_output_json=file_output+".json"
+    file_output_txt=file_output+".txt"
+    
     if not tasks:
-            print("No tasks to show.")
-            input("Press Enter to return to menu.")
-            return
+            choice=input("Your list is currently empty. Saving now might erase any previously saved lists in this file. Continue? Y/N: ").strip().lower()
+            if choice!="y":
+                return
     try:
-        with open("TO-DO.json", "w") as f:
+        with open(file_output_json, "w") as f:
             json.dump(tasks,f,indent=4)
-        with open("TO-DO.txt", "w") as f:
+        with open(file_output_txt, "w") as f:
             f.write("========= TO-DO LIST =========\n")
             if tasks:
                 max_len=max(len(item["task"]) for item in tasks)
                 for i, item in enumerate(tasks,1):
                     status="x" if item["done"] else " "
                     f.write(f"{i}. {item['task'].ljust(max_len)}   [{status}]\n")
+            else:
+                f.write(" ")
 
         print("Tasks saved successfully.")
-        input("Press Enter to return to menu.")
+
 
     except (IOError, OSError) as e:
         print(f"Error saving tasks: {e}")
@@ -126,17 +132,15 @@ def save_to_file():
 
 def load_from_file():
     global tasks
-    if not tasks:
-            print("No tasks to show.")
-            input("Press Enter to return to menu.")
-            return
     try:
-        with open("TO-DO.json","r") as f:
+        file_input=input("Enter file name: ")
+        file_input_json=file_input+".json"
+        with open(file_input_json,"r") as f:
             tasks=json.load(f)
         clear_screen()
         print("Tasks loaded successfully.")
         list_tasks()
-        input("Press enter to return to menu.")
+        input("Press Enter to return to menu.")
     except FileNotFoundError:
         print("No saved tasks found.")
         input("Press Enter to return to menu.")

@@ -1,1 +1,1 @@
-o
+ print("Tasks loaded successfully.")
