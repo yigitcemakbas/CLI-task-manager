@@ -144,13 +144,13 @@ def load_from_file():
         list_tasks()
         input("Press Enter to return to menu.")
     except FileNotFoundError:
-        print("No saved tasks found.")
+        print("No files found.")
         input("Press Enter to return to menu.")
     except json.JSONDecodeError:
         print("Error loading tasks. File might be corrupted.")
         input("Press Enter to return to menu.")
     except (IOError,OSError) as e:
-        print(f"Erorr reading file: {e}")
+        print(f"Error reading file: {e}")
         input("Press Enter to return to menu.")
 
 def main():
